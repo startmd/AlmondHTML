@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Almond</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Vite Assets (Dev) -->
+    <script type="module" src="/src/js/main.js"></script>
+    <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- ============================================
+         TOP NAVIGATION
+    ============================================= -->
+    <nav class="bg-surface border-b border-almond-200 fixed left-0 right-0 top-0 z-50">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 py-3">
+            
+            <!-- Logo -->
+            <a href="/" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">A</span>
+                </div>
+                <span class="self-center text-xl font-semibold whitespace-nowrap text-text-main">Almond</span>
+            </a>
+
+            <!-- Right Side -->
+            <div class="flex items-center space-x-4">
+                <!-- Notifications -->
+                <button type="button" class="relative p-2 text-text-muted hover:bg-almond-100 rounded-lg transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-primary-500 rounded-full"></span>
+                </button>
+
+                <!-- User Menu -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center space-x-2 hover:bg-almond-100 px-3 py-2 rounded-lg transition-colors">
+                        <img class="w-8 h-8 rounded-full object-cover" src="/src/img/avatars/avatar-01.png" alt="User" onerror="this.src='https://ui-avatars.com/api/?name=User&background=2F855A&color=fff'">
+                        <span class="text-sm font-medium text-text-main hidden md:block">John Doe</span>
+                        <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Dropdown - Positioned relative to button, aligned right -->
+                    <div x-show="open" 
+                         @click.away="open = false" 
+                         x-transition
+                         class="absolute right-0 top-full mt-2 w-48 bg-surface rounded-lg shadow-lg border border-almond-200 py-2 z-50" 
+                         style="display: none;">
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-100">Settings</a>
+                        <hr class="my-2 border-almond-200">
+                        <a href="login.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-almond-100">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+<!-- ============================================
+     SECONDARY NAVIGATION BAR (Dark Theme)
+============================================= -->
+<div class="bg-brown-900 border-b border-brown-800 sticky top-[73px] z-40">
+    <div class="max-w-screen-xl mx-auto px-4">
+        <div class="flex items-center justify-between">
+            
+            <!-- Left: Navigation Links -->
+            <div class="flex items-center space-x-1">
+                <!-- Dashboard Link -->
+                <a href="index.html" class="px-4 py-3 text-sm font-medium text-cream-50 border-b-2 border-primary-500 hover:bg-brown-800 transition-colors">
+                    Dashboard
+                </a>
+                
+                <!-- Projects Dropdown -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @click.away="open = false" 
+                            class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors flex items-center space-x-1">
+                        <span>Projects</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <!-- Dropdown Menu (White background for contrast) -->
+                    <div x-show="open" x-transition 
+                         class="absolute left-0 top-full mt-0 w-56 bg-surface rounded-b-lg rounded-tr-lg shadow-xl border border-almond-200 border-t-0 py-2 z-50" 
+                         style="display: none;">
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">All Projects</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">In Progress</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">Completed</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">Archived</a>
+                        <hr class="my-2 border-almond-200">
+                        <a href="#" class="block px-4 py-2 text-sm text-primary-500 hover:bg-almond-50">+ New Project</a>
+                    </div>
+                </div>
+                
+                <!-- Kanban Link -->
+                <a href="kanban.html" class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors">
+                    Kanban Board
+                </a>
+                
+                <!-- Files Dropdown -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @click.away="open = false" 
+                            class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors flex items-center space-x-1">
+                        <span>Files</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" x-transition 
+                         class="absolute left-0 top-full mt-0 w-56 bg-surface rounded-b-lg rounded-tr-lg shadow-xl border border-almond-200 border-t-0 py-2 z-50" 
+                         style="display: none;">
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">All Files</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">Project Assets</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">Documentation</a>
+                        <hr class="my-2 border-almond-200">
+                        <a href="#" class="block px-4 py-2 text-sm text-primary-500 hover:bg-almond-50">↑ Upload File</a>
+                    </div>
+                </div>
+                
+                <!-- Reports Link -->
+                <a href="#" class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors">
+                    Reports
+                </a>
+            </div>
+            
+            <!-- Right: Quick Actions -->
+            <div class="flex items-center space-x-3 py-2">
+                <span class="text-sm text-cream-100">E-Commerce Platform</span>
+                <div class="h-4 w-px bg-brown-800"></div>
+                <a href="settings.html" class="text-sm text-cream-100 hover:text-primary-500 transition-colors">Settings</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- ============================================
+         MAIN CONTENT
+    ============================================= -->
+    <main class="flex-grow pt-20 pb-10 px-4">
+        <div class="max-w-screen-xl mx-auto">
+        
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-text-main">Dashboard</h1>
+                    <p class="text-text-muted mt-1">Welcome back! Here's your project overview.</p>
+                </div>
+                <button class="mt-4 md:mt-0 bg-primary-500 hover:bg-primary-600 text-white font-medium px-5 py-2.5 rounded-lg transition-colors flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>New Project</span>
+                </button>
+            </div>
+
+            <!-- ============================================
+                 STATS CARDS
+            ============================================= -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Total Projects -->
+                <div class="bg-surface rounded-xl p-6 border border-almond-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-text-muted">Total Projects</p>
+                            <p class="text-3xl font-bold text-text-main mt-1">12</p>
+                        </div>
+                        <div class="w-12 h-12 bg-almond-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-sm text-green-600 mt-4 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                        </svg>
+                        +2 this month
+                    </p>
+                </div>
+
+                <!-- In Progress -->
+                <div class="bg-surface rounded-xl p-6 border border-almond-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-text-muted">In Progress</p>
+                            <p class="text-3xl font-bold text-text-main mt-1">5</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-sm text-text-muted mt-4">Active projects</p>
+                </div>
+
+                <!-- Completed -->
+                <div class="bg-surface rounded-xl p-6 border border-almond-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-text-muted">Completed</p>
+                            <p class="text-3xl font-bold text-text-main mt-1">7</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-sm text-text-muted mt-4">All tasks done</p>
+                </div>
+
+                <!-- Pending Tasks -->
+                <div class="bg-surface rounded-xl p-6 border border-almond-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-text-muted">Pending Tasks</p>
+                            <p class="text-3xl font-bold text-text-main mt-1">23</p>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-sm text-text-muted mt-4">Across all projects</p>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 FILTERS & SEARCH
+            ============================================= -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+                <div class="flex items-center space-x-2">
+                    <button class="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg">All</button>
+                    <button class="px-4 py-2 bg-almond-100 text-text-main text-sm font-medium rounded-lg hover:bg-almond-200">In Progress</button>
+                    <button class="px-4 py-2 bg-almond-100 text-text-main text-sm font-medium rounded-lg hover:bg-almond-200">Completed</button>
+                    <button class="px-4 py-2 bg-almond-100 text-text-main text-sm font-medium rounded-lg hover:bg-almond-200">Archived</button>
+                </div>
+                <div class="relative">
+                    <input type="text" placeholder="Search projects..." class="w-full md:w-64 pl-10 pr-4 py-2 border border-almond-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    <svg class="w-5 h-5 text-text-muted absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 PROJECTS GRID
+            ============================================= -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                
+                <!-- Project Card 1 -->
+                <div class="bg-surface rounded-xl border border-almond-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://ui-avatars.com/api/?name=E-Commerce&background=2F855A&color=fff" alt="Logo" class="w-12 h-12 rounded-lg object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-text-main">E-Commerce Platform</h3>
+                                    <p class="text-sm text-text-muted">Online store with payment</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">In Progress</span>
+                        </div>
+                        
+                        <!-- Progress -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-muted">Progress</span>
+                                <span class="font-medium text-text-main">75%</span>
+                            </div>
+                            <div class="w-full bg-almond-100 rounded-full h-2">
+                                <div class="bg-primary-500 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Task Stats -->
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-text-muted flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                    12/16 Tasks
+                                </span>
+                            </div>
+                            <span class="text-text-muted">Updated 2h ago</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-3 bg-almond-50 border-t border-almond-200 flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=JD&background=random" alt="">
+                            <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=AS&background=random" alt="">
+                            <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=MK&background=random" alt="">
+                        </div>
+                        <a href="kanban.html" class="text-primary-500 hover:text-primary-600 text-sm font-medium">View Board →</a>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="bg-surface rounded-xl border border-almond-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://ui-avatars.com/api/?name=Mobile+App&background=0D9488&color=fff" alt="Logo" class="w-12 h-12 rounded-lg object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-text-main">Mobile App Redesign</h3>
+                                    <p class="text-sm text-text-muted">iOS & Android UI refresh</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full">Pending</span>
+                        </div>
+                        
+                        <!-- Progress -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-muted">Progress</span>
+                                <span class="font-medium text-text-main">45%</span>
+                            </div>
+                            <div class="w-full bg-almond-100 rounded-full h-2">
+                                <div class="bg-primary-500 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Task Stats -->
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-text-muted flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                    8/18 Tasks
+                                </span>
+                            </div>
+                            <span class="text-text-muted">Updated 1d ago</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-3 bg-almond-50 border-t border-almond-200 flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=RK&background=random" alt="">
+                            <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=PL&background=random" alt="">
+                        </div>
+                        <a href="kanban.html" class="text-primary-500 hover:text-primary-600 text-sm font-medium">View Board →</a>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="bg-surface rounded-xl border border-almond-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://ui-avatars.com/api/?name=API+Integration&background=D97706&color=fff" alt="Logo" class="w-12 h-12 rounded-lg object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-text-main">API Integration</h3>
+                                    <p class="text-sm text-text-muted">Third-party services</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Completed</span>
+                        </div>
+                        
+                        <!-- Progress -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-text-muted">Progress</span>
+                                <span class="font-medium text-text-main">100%</span>
+                            </div>
+                            <div class="w-full bg-almond-100 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Task Stats -->
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-text-muted flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                    20/20 Tasks
+                                </span>
+                            </div>
+                            <span class="text-text-muted">Updated 3d ago</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-3 bg-almond-50 border-t border-almond-200 flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=TM&background=random" alt="">
+                        </div>
+                        <a href="kanban.html" class="text-primary-500 hover:text-primary-600 text-sm font-medium">View Board →</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============================================
+                 RECENT ACTIVITY
+            ============================================= -->
+            <div class="bg-surface rounded-xl border border-almond-200 shadow-sm p-6 mb-8">
+                <h2 class="text-lg font-semibold text-text-main mb-4">Recent Activity</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-text-main"><span class="font-medium">John</span> completed task <span class="font-medium">"Setup Database"</span> in <span class="font-medium">E-Commerce Platform</span></p>
+                            <p class="text-xs text-text-muted mt-1">2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-text-main"><span class="font-medium">Sarah</span> created task <span class="font-medium">"Design Homepage"</span> in <span class="font-medium">Mobile App Redesign</span></p>
+                            <p class="text-xs text-text-muted mt-1">5 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-text-main"><span class="font-medium">Mike</span> updated <span class="font-medium">Project Documentation</span></p>
+                            <p class="text-xs text-text-muted mt-1">1 day ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ============================================
+         FOOTER
+    ============================================= -->
+    <footer class="bg-surface border-t border-almond-200 py-6">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm text-text-muted">&copy; 2024 Almond. All rights reserved.</p>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-sm text-text-muted hover:text-primary-500 transition-colors">Privacy</a>
+                    <a href="#" class="text-sm text-text-muted hover:text-primary-500 transition-colors">Terms</a>
+                    <a href="#" class="text-sm text-text-muted hover:text-primary-500 transition-colors">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

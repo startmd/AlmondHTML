@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board | Almond</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="/src/js/main.js"></script>
+    <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- ============================================
+         TOP NAVIGATION
+    ============================================= -->
+    <nav class="bg-surface border-b border-almond-200 fixed left-0 right-0 top-0 z-50">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 py-3">
+            <a href="index.html" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">A</span>
+                </div>
+                <span class="self-center text-xl font-semibold whitespace-nowrap text-text-main">Almond</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <button class="relative p-2 text-text-muted hover:bg-almond-100 rounded-lg transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-primary-500 rounded-full"></span>
+                </button>
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center space-x-2 hover:bg-almond-100 px-3 py-2 rounded-lg transition-colors">
+                        <img class="w-8 h-8 rounded-full object-cover" src="https://ui-avatars.com/api/?name=John+Doe&background=2F855A&color=fff" alt="User">
+                        <span class="text-sm font-medium text-text-main hidden md:block">John Doe</span>
+                        <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 top-full mt-2 w-48 bg-surface rounded-lg shadow-lg border border-almond-200 py-2 z-50" style="display: none;">
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-100">Settings</a>
+                        <hr class="my-2 border-almond-200">
+                        <a href="login.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-almond-100">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         SECONDARY NAVIGATION (Dark Brown)
+    ============================================= -->
+    <div class="bg-brown-900 border-b border-brown-800 sticky top-[73px] z-40">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-1">
+                    <a href="index.html" class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors">Dashboard</a>
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" @click.away="open = false" class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors flex items-center space-x-1">
+                            <span>Projects</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition class="absolute left-0 top-full w-56 bg-surface rounded-b-lg shadow-xl border border-almond-200 border-t-0 py-2 z-50" style="display: none;">
+                            <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">All Projects</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">In Progress</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-text-main hover:bg-almond-50">+ New Project</a>
+                        </div>
+                    </div>
+                    <a href="kanban.html" class="px-4 py-3 text-sm font-medium text-cream-50 border-b-2 border-primary-500 hover:bg-brown-800 transition-colors">Kanban Board</a>
+                    <a href="#" class="px-4 py-3 text-sm font-medium text-cream-100 hover:text-cream-50 hover:bg-brown-800 transition-colors">Files</a>
+                </div>
+                <div class="flex items-center space-x-3 py-2">
+                    <span class="text-sm text-cream-100">E-Commerce Platform</span>
+                    <div class="h-4 w-px bg-brown-800"></div>
+                    <a href="settings.html" class="text-sm text-cream-100 hover:text-primary-500 transition-colors">Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         KANBAN HEADER
+    ============================================= -->
+    <div class="pt-6 pb-4 px-4 bg-surface border-b border-almond-200">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-text-main">Kanban Board</h1>
+                    <p class="text-text-muted text-sm mt-1">Drag and drop tasks to update status</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <input type="text" placeholder="Search tasks..." class="w-64 pl-10 pr-4 py-2 border border-almond-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <svg class="w-5 h-5 text-text-muted absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         KANBAN BOARD (Fixed Overflow)
+    ============================================= -->
+    <main class="flex-grow bg-almond-50 overflow-x-auto">
+        <div class="p-6 min-w-max">
+            
+            <!-- Board Container - Centered but scrollable -->
+            <div class="flex space-x-4" x-data="kanbanBoard()">
+                
+                <!-- COLUMN 1: WAITING FOR APPROVAL -->
+                <div class="w-80 flex-shrink-0">
+                    <div class="bg-yellow-50 rounded-xl border border-yellow-200 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-yellow-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <h3 class="font-semibold text-text-main text-sm">Waiting for Approval</h3>
+                                <span class="bg-yellow-200 text-yellow-700 text-xs font-medium px-2 py-0.5 rounded-full">3</span>
+                            </div>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[300px]" 
+                             @dragover.prevent="dragOver()"
+                             @dragleave="dragLeave()"
+                             @drop="dropTask(, 'waiting')">
+                            
+                            <!-- Task Card 1 -->
+                            <div class="bg-surface rounded-lg border border-almond-200 shadow-sm p-4 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+                                 draggable="true"
+                                 @dragstart="dragStart(, 'task1', 'waiting')"
+                                 :class="draggedTask === 'task1' ? 'opacity-50' : ''">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-medium text-text-main text-sm">Setup payment gateway</h4>
+                                </div>
+                                <p class="text-text-muted text-xs mb-3 line-clamp-2">Integrate Stripe payment processing</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=JD&background=random" alt="">
+                                    </div>
+                                    <span class="text-text-muted text-xs flex items-center">
+                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Mar 15
+                                    </span>
+                                </div>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Backend</span>
+                                    <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded">High</span>
+                                </div>
+                            </div>
+
+                            <!-- Task Card 2 -->
+                            <div class="bg-surface rounded-lg border border-almond-200 shadow-sm p-4 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+                                 draggable="true"
+                                 @dragstart="dragStart(, 'task2', 'waiting')"
+                                 :class="draggedTask === 'task2' ? 'opacity-50' : ''">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-medium text-text-main text-sm">Design product pages</h4>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=MK&background=random" alt="">
+                                    </div>
+                                    <span class="text-text-muted text-xs">Mar 18</span>
+                                </div>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded">Design</span>
+                                </div>
+                            </div>
+
+                            <!-- Add Task Button -->
+                            <button @click="openModal('waiting')" class="w-full py-2 text-text-muted hover:text-text-main hover:bg-yellow-100 rounded-lg text-sm transition-colors flex items-center justify-center space-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span>Add Task</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMN 2: PENDING -->
+                <div class="w-80 flex-shrink-0">
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                                <h3 class="font-semibold text-text-main text-sm">Pending</h3>
+                                <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-0.5 rounded-full">2</span>
+                            </div>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[300px]" 
+                             @dragover.prevent="dragOver()"
+                             @dragleave="dragLeave()"
+                             @drop="dropTask(, 'pending')">
+                            
+                            <div class="bg-surface rounded-lg border border-almond-200 shadow-sm p-4 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+                                 draggable="true"
+                                 @dragstart="dragStart(, 'task3', 'pending')"
+                                 :class="draggedTask === 'task3' ? 'opacity-50' : ''">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-medium text-text-main text-sm">User authentication</h4>
+                                </div>
+                                <p class="text-text-muted text-xs mb-3 line-clamp-2">Login, register, password reset</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=JD&background=random" alt="">
+                                    </div>
+                                    <span class="text-text-muted text-xs">Mar 12</span>
+                                </div>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Backend</span>
+                                    <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded">Critical</span>
+                                </div>
+                            </div>
+
+                            <button @click="openModal('pending')" class="w-full py-2 text-text-muted hover:text-text-main hover:bg-gray-100 rounded-lg text-sm transition-colors flex items-center justify-center space-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span>Add Task</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMN 3: IN PROGRESS -->
+                <div class="w-80 flex-shrink-0">
+                    <div class="bg-blue-50 rounded-xl border border-blue-200 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-blue-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                <h3 class="font-semibold text-text-main text-sm">In Progress</h3>
+                                <span class="bg-blue-200 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">3</span>
+                            </div>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[300px]" 
+                             @dragover.prevent="dragOver()"
+                             @dragleave="dragLeave()"
+                             @drop="dropTask(, 'inprogress')">
+                            
+                            <div class="bg-surface rounded-lg border border-almond-200 shadow-sm p-4 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+                                 draggable="true"
+                                 @dragstart="dragStart(, 'task4', 'inprogress')"
+                                 :class="draggedTask === 'task4' ? 'opacity-50' : ''">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-medium text-text-main text-sm">Shopping cart</h4>
+                                </div>
+                                <p class="text-text-muted text-xs mb-3 line-clamp-2">Add to cart, update quantity</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=AS&background=random" alt="">
+                                    </div>
+                                    <span class="text-text-muted text-xs">Mar 10</span>
+                                </div>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Backend</span>
+                                </div>
+                            </div>
+
+                            <button @click="openModal('inprogress')" class="w-full py-2 text-text-muted hover:text-text-main hover:bg-blue-100 rounded-lg text-sm transition-colors flex items-center justify-center space-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span>Add Task</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMN 4: TESTING -->
+                <div class="w-80 flex-shrink-0">
+                    <div class="bg-purple-50 rounded-xl border border-purple-200 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-purple-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                <h3 class="font-semibold text-text-main text-sm">Testing</h3>
+                                <span class="bg-purple-200 text-purple-700 text-xs font-medium px-2 py-0.5 rounded-full">1</span>
+                            </div>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[300px]" 
+                             @dragover.prevent="dragOver()"
+                             @dragleave="dragLeave()"
+                             @drop="dropTask(, 'testing')">
+                            
+                            <div class="bg-surface rounded-lg border border-almond-200 shadow-sm p-4 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+                                 draggable="true"
+                                 @dragstart="dragStart(, 'task5', 'testing')"
+                                 :class="draggedTask === 'task5' ? 'opacity-50' : ''">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-medium text-text-main text-sm">Homepage responsive</h4>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=PL&background=random" alt="">
+                                    </div>
+                                    <span class="text-text-muted text-xs">Mar 08</span>
+                                </div>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded">Design</span>
+                                    <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded">QA</span>
+                                </div>
+                            </div>
+
+                            <button @click="openModal('testing')" class="w-full py-2 text-text-muted hover:text-text-main hover:bg-purple-100 rounded-lg text-sm transition-colors flex items-center justify-center space-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span>Add Task</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMN 5: COMPLETED -->
+                <div class="w-80 flex-shrink-0">
+                    <div class="bg-green-50 rounded-xl border border-green-200 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-green-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <h3 class="font-semibold text-text-main text-sm">Completed</h3>
+                                <span class="bg-green-200 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full">5</span>
+                            </div>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[300px]" 
+                             @dragover.prevent="dragOver()"
+                             @dragleave="dragLeave()"
+                             @drop="dropTask(, 'completed')">
+                            
+                            <div class="bg-surface rounded-lg border border-almond-200 shadow-sm p-4 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow opacity-75"
+                                 draggable="true"
+                                 @dragstart="dragStart(, 'task6', 'completed')"
+                                 :class="draggedTask === 'task6' ? 'opacity-50' : ''">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-medium text-text-main text-sm line-through">Project setup</h4>
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-surface" src="https://ui-avatars.com/api/?name=JD&background=random" alt="">
+                                    </div>
+                                    <span class="text-text-muted text-xs">Mar 01</span>
+                                </div>
+                            </div>
+
+                            <button @click="openModal('completed')" class="w-full py-2 text-text-muted hover:text-text-main hover:bg-green-100 rounded-lg text-sm transition-colors flex items-center justify-center space-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                <span>Add Task</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================
+         ADD TASK MODAL (Context-Aware)
+    ============================================= -->
+    <div x-data="taskModal()" 
+         x-show="isOpen" 
+         @keydown.escape.window="closeModal()"
+         class="fixed inset-0 z-[60] overflow-y-auto" 
+         style="display: none;">
+        
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="closeModal()"></div>
+        
+        <!-- Modal Center -->
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative bg-surface rounded-xl shadow-2xl w-full max-w-md transform transition-all"
+                 @click.away="closeModal()">
+                
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-almond-200">
+                    <h3 class="text-lg font-semibold text-text-main">Add New Task</h3>
+                    <button @click="closeModal()" class="text-text-muted hover:text-text-main">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Modal Body -->
+                <form @submit.prevent="submitTask()" class="px-6 py-4 space-y-4">
+                    
+                    <!-- Column Indicator -->
+                    <div class="flex items-center space-x-2 text-sm">
+                        <span class="text-text-muted">Adding to:</span>
+                        <span class="px-2 py-1 bg-primary-100 text-primary-700 rounded font-medium" x-text="currentColumn"></span>
+                    </div>
+                    
+                    <!-- Task Title -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-main mb-1">Task Title *</label>
+                        <input type="text" x-model="taskTitle" required
+                               class="w-full px-3 py-2 border border-almond-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                               placeholder="e.g., Fix login bug">
+                    </div>
+                    
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-main mb-1">Description</label>
+                        <textarea x-model="taskDescription" rows="3"
+                                  class="w-full px-3 py-2 border border-almond-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                  placeholder="Add details..."></textarea>
+                    </div>
+                    
+                    <!-- Assignee -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-main mb-1">Assignee</label>
+                        <select class="w-full px-3 py-2 border border-almond-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Select user...</option>
+                            <option value="1">John Doe</option>
+                            <option value="2">Sarah Smith</option>
+                            <option value="3">Mike Johnson</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Due Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-main mb-1">Due Date</label>
+                        <input type="date" 
+                               class="w-full px-3 py-2 border border-almond-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    </div>
+                    
+                    <!-- Tags -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-main mb-1">Tags</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full hover:bg-blue-200">Backend</button>
+                            <button type="button" class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full hover:bg-green-200">Design</button>
+                            <button type="button" class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full hover:bg-red-200">Critical</button>
+                            <button type="button" class="px-3 py-1 bg-almond-100 text-text-muted text-xs rounded-full hover:bg-almond-200">+ Add</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Modal Footer -->
+                <div class="flex items-center justify-end space-x-3 px-6 py-4 border-t border-almond-200 bg-almond-50 rounded-b-xl">
+                    <button type="button" @click="closeModal()" class="px-4 py-2 text-sm font-medium text-text-muted hover:text-text-main transition-colors">Cancel</button>
+                    <button type="submit" @click="submitTask()" class="px-4 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-lg transition-colors">Add Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         FOOTER
+    ============================================= -->
+    <footer class="bg-surface border-t border-almond-200 py-6">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm text-text-muted">&copy; 2024 Almond. All rights reserved.</p>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-sm text-text-muted hover:text-primary-500 transition-colors">Privacy</a>
+                    <a href="#" class="text-sm text-text-muted hover:text-primary-500 transition-colors">Terms</a>
+                    <a href="#" class="text-sm text-text-muted hover:text-primary-500 transition-colors">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         KANBAN ALPINE JS (Fixed Drag-Drop)
+    ============================================= -->
+    <script>
+        function kanbanBoard() {
+            return {
+                draggedTask: null,
+                draggedFromColumn: null,
+                
+                dragStart(event, taskId, columnId) {
+                    this.draggedTask = taskId;
+                    this.draggedFromColumn = columnId;
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', taskId);
+                    setTimeout(() => event.target.classList.add('opacity-50'), 0);
+                },
+                
+                dragOver(event) {
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = 'move';
+                    event.currentTarget.classList.add('bg-opacity-50');
+                },
+                
+                dragLeave(event) {
+                    event.currentTarget.classList.remove('bg-opacity-50');
+                },
+                
+                dropTask(event, columnId) {
+                    event.preventDefault();
+                    event.currentTarget.classList.remove('bg-opacity-50');
+                    
+                    if (this.draggedTask) {
+                        console.log('Moving task', this.draggedTask, 'from', this.draggedFromColumn, 'to', columnId);
+                        // Backend API call would go here
+                        // Example: await fetch('/api/tasks/move', { method: 'POST', body: JSON.stringify({ taskId: this.draggedTask, columnId }) })
+                    }
+                    
+                    this.draggedTask = null;
+                    this.draggedFromColumn = null;
+                }
+            }
+        }
+        
+        function taskModal() {
+            return {
+                isOpen: false,
+                currentColumn: '',
+                taskTitle: '',
+                taskDescription: '',
+                
+                openModal(columnId) {
+                    const columnNames = {
+                        'waiting': 'Waiting for Approval',
+                        'pending': 'Pending',
+                        'inprogress': 'In Progress',
+                        'testing': 'Testing',
+                        'completed': 'Completed'
+                    };
+                    this.currentColumn = columnNames[columnId] || columnId;
+                    this.isOpen = true;
+                    this.taskTitle = '';
+                    this.taskDescription = '';
+                },
+                
+                closeModal() {
+                    this.isOpen = false;
+                },
+                
+                submitTask() {
+                    console.log('Creating task:', {
+                        title: this.taskTitle,
+                        description: this.taskDescription,
+                        column: this.currentColumn
+                    });
+                    // Backend API call would go here
+                    this.closeModal();
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
